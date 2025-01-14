@@ -1,7 +1,8 @@
 {
-  "/profile/page": "app/profile/page.js",
+  "/not-found": "app/not-found.js",
   "/page": "app/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/planner/page": "app/dashboard/planner/page.js",
-  "/dashboard/venues/page": "app/dashboard/venues/page.js"
+  "/profile/page": "app/profile/page.js",
+  "/auth/page": "app/auth/page.js",
+  "/ideas/page": "app/ideas/page.js",
+  "/dashboard/page": "app/dashboard/page.js"
 }

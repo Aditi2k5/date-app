@@ -6,44 +6,87 @@ import { useRouter } from 'next/navigation';
 
 interface ProfileData {
   name: string;
-  age: string;
-  gender: string;
-  favLanguage: string;
-  hatedLanguage: string;
-  favAlgorithm: string;
-  favMeme: string;
-  idealDate: string;
-  debuggingStyle: string;
-  tabsOrSpaces: string;
-  githubUrl: string;
-  bio: string;
+  email: string;
+  profile: {
+    favLanguage: string;
+    hatedLanguage: string;
+    favAlgorithm: string;
+    idealDate: string;
+  };
 }
 
 export default function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState<ProfileData>({
     name: '',
-    age: '',
-    gender: '',
-    favLanguage: '',
-    hatedLanguage: '',
-    favAlgorithm: '',
-    favMeme: '',
-    idealDate: '',
-    debuggingStyle: '',
-    tabsOrSpaces: '',
-    githubUrl: '',
-    bio: ''
+    email: '',
+    profile: {
+      favLanguage: '',
+      hatedLanguage: '',
+      favAlgorithm: '',
+      idealDate: ''
+    }
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setProfile(prev => ({ ...prev, [name]: value }));
+  
+    setProfile((prev) => {
+      // Check if the input belongs to the nested `profile` object
+      if (name.startsWith('profile.')) {
+        const profileKey = name.split('.')[1]; // Extract the nested key (e.g., "favLanguage")
+        return {
+          ...prev,
+          profile: {
+            ...prev.profile,
+            [profileKey]: value, // Update the nested key
+          },
+        };
+      }
+  
+      // Otherwise, update the root-level key
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/dashboard');
+    try {
+      // Format the data to match your MongoDB schema
+      const userData = {
+        name: profile.name,
+        email: `${profile.name.toLowerCase().replace(/\s+/g, '')}@dev.com`, // Generate an email
+        profile: {
+          favLanguage: profile.profile.favLanguage,
+          hatedLanguage: profile.profile.hatedLanguage,
+          favAlgorithm: profile.profile.favAlgorithm,
+          idealDate: profile.profile.idealDate
+        }
+      };
+
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to create profile');
+      }
+
+      console.log('Profile created successfully');
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Error creating profile:', error);
+      // Add error handling UI here
+    }
   };
 
   return (
@@ -74,42 +117,25 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="block text-[#4ec9b0] mb-2">age: number;</label>
+                <label className="block text-[#4ec9b0] mb-2">email: string;</label>
                 <input
-                  type="number"
-                  name="age"
+                  type="email"
+                  name="email"
                   className="code-input"
-                  value={profile.age}
+                  value={profile.email}
                   onChange={handleInputChange}
-                  placeholder="parseInt('your_age')"
+                  placeholder="your_email@example.com"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-[#4ec9b0] mb-2">gender: string;</label>
-                <select
-                  name="gender"
-                  className="code-input"
-                  value={profile.gender}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                  <option value="boolean">Boolean</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[#4ec9b0] mb-2">favLanguage: string;</label>
+                <label className="block text-[#4ec9b0] mb-2">profile.favLanguage: string;</label>
                 <input
                   type="text"
-                  name="favLanguage"
+                  name="profile.favLanguage"
                   className="code-input"
-                  value={profile.favLanguage}
+                  value={profile.profile.favLanguage}
                   onChange={handleInputChange}
                   placeholder="Your favorite programming language"
                   required
@@ -117,12 +143,12 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="block text-[#4ec9b0] mb-2">hatedLanguage: string;</label>
+                <label className="block text-[#4ec9b0] mb-2">profile.hatedLanguage: string;</label>
                 <input
                   type="text"
-                  name="hatedLanguage"
+                  name="profile.hatedLanguage"
                   className="code-input"
-                  value={profile.hatedLanguage}
+                  value={profile.profile.hatedLanguage}
                   onChange={handleInputChange}
                   placeholder="Language you'd rather not use"
                   required
@@ -130,12 +156,12 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="block text-[#4ec9b0] mb-2">favAlgorithm: string;</label>
+                <label className="block text-[#4ec9b0] mb-2">profile.favAlgorithm: string;</label>
                 <input
                   type="text"
-                  name="favAlgorithm"
+                  name="profile.favAlgorithm"
                   className="code-input"
-                  value={profile.favAlgorithm}
+                  value={profile.profile.favAlgorithm}
                   onChange={handleInputChange}
                   placeholder="Your favorite algorithm"
                   required
@@ -143,11 +169,11 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="block text-[#4ec9b0] mb-2">idealDate: string;</label>
+                <label className="block text-[#4ec9b0] mb-2">profile.idealDate: string;</label>
                 <select
-                  name="idealDate"
+                  name="profile.idealDate"
                   className="code-input"
-                  value={profile.idealDate}
+                  value={profile.profile.idealDate}
                   onChange={handleInputChange}
                   required
                 >
@@ -159,64 +185,6 @@ export default function ProfilePage() {
                   <option value="lan">LAN Party</option>
                 </select>
               </div>
-
-              <div>
-                <label className="block text-[#4ec9b0] mb-2">debuggingStyle: string;</label>
-                <select
-                  name="debuggingStyle"
-                  className="code-input"
-                  value={profile.debuggingStyle}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">How do you debug?</option>
-                  <option value="console">console.log everywhere</option>
-                  <option value="debugger">Actual debugger</option>
-                  <option value="prayer">Prayer</option>
-                  <option value="stackoverflow">Stack Overflow</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[#4ec9b0] mb-2">tabsOrSpaces: string;</label>
-                <select
-                  name="tabsOrSpaces"
-                  className="code-input"
-                  value={profile.tabsOrSpaces}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Tabs or Spaces?</option>
-                  <option value="tabs">Tabs</option>
-                  <option value="spaces">Spaces</option>
-                  <option value="both">Both (Chaotic Evil)</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-[#4ec9b0] mb-2">favMeme: string;</label>
-              <input
-                type="text"
-                name="favMeme"
-                className="code-input"
-                value={profile.favMeme}
-                onChange={handleInputChange}
-                placeholder="Your favorite programming meme"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-[#4ec9b0] mb-2">bio: string;</label>
-              <textarea
-                name="bio"
-                className="code-input min-h-[100px]"
-                value={profile.bio}
-                onChange={handleInputChange}
-                placeholder="/* Write a comment about yourself */"
-                required
-              />
             </div>
 
             <button type="submit" className="code-btn w-full mt-6">

@@ -1,5 +1,5 @@
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./app/globals.css ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************/
 /*
 ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com
@@ -543,17 +543,17 @@ video {
 .sticky {
   position: sticky;
 }
-.right-0 {
-  right: 0px;
-}
-.top-0 {
-  top: 0px;
-}
 .bottom-0 {
   bottom: 0px;
 }
 .left-0 {
   left: 0px;
+}
+.right-0 {
+  right: 0px;
+}
+.top-0 {
+  top: 0px;
 }
 .z-50 {
   z-index: 50;
@@ -576,6 +576,9 @@ video {
 }
 .mb-8 {
   margin-bottom: 2rem;
+}
+.mr-2 {
+  margin-right: 0.5rem;
 }
 .mt-1 {
   margin-top: 0.25rem;
@@ -600,9 +603,6 @@ video {
 }
 .mt-8 {
   margin-top: 2rem;
-}
-.mr-2 {
-  margin-right: 0.5rem;
 }
 .block {
   display: block;
@@ -643,14 +643,11 @@ video {
 .h-6 {
   height: 1.5rem;
 }
-.h-full {
-  height: 100%;
-}
 .h-8 {
   height: 2rem;
 }
-.min-h-\[100px\] {
-  min-height: 100px;
+.h-full {
+  height: 100%;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -823,10 +820,6 @@ video {
 }
 .bg-\[\#238636\]\/10 {
   background-color: rgb(35 134 54 / 0.1);
-}
-.bg-\[\#252526\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 37 38 / var(--tw-bg-opacity));
 }
 .bg-\[\#264f78\] {
   --tw-bg-opacity: 1;
@@ -1160,14 +1153,14 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.hover\:border-\[\#238636\]:hover {
-  --tw-border-opacity: 1;
-  border-color: rgb(35 134 54 / var(--tw-border-opacity));
-}
-
 .hover\:border-\[\#0969da\]:hover {
   --tw-border-opacity: 1;
   border-color: rgb(9 105 218 / var(--tw-border-opacity));
+}
+
+.hover\:border-\[\#238636\]:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(35 134 54 / var(--tw-border-opacity));
 }
 
 .hover\:bg-\[\#1f7cf2\]:hover {
@@ -1186,11 +1179,6 @@ body {
 
 .hover\:bg-opacity-80:hover {
   --tw-bg-opacity: 0.8;
-}
-
-.hover\:text-\[\#569cd6\]:hover {
-  --tw-text-opacity: 1;
-  color: rgb(86 156 214 / var(--tw-text-opacity));
 }
 
 .hover\:text-\[\#0969da\]:hover {
